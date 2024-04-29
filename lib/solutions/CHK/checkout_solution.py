@@ -141,7 +141,7 @@ def get_multi_product_deal_cost(total_cost, sku_frequency):
     for key in sku_frequency:
         if key in set_of_products:
             list_of_products += [(PRODUCT_COSTS[key],key) for _ in range(0, sku_frequency[key])]
-    if len(list_of_products) < 3 or len(set(list_of_products)) < 3:
+    if len(list_of_products) < 3:
         return total_cost
     else:
         list_of_products.sort(reverse=True)
@@ -168,6 +168,7 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
 
 

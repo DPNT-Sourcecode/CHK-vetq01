@@ -6,7 +6,11 @@ class MyTestCase(unittest.TestCase):
 
     def test_invalid_deal(self):
         skus = "SSSTTT"
-        self.assertEqual(checkout(skus), 120)
+        self.assertEqual(checkout(skus), 90)
+
+    def test_simple_deal(self):
+        skus = "SSS"
+        self.assertEqual(checkout(skus), 45)
 
     def test_valid_deal(self):
         skus = "SSSTTTXXX"
@@ -20,4 +24,5 @@ class MyTestCase(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
 
