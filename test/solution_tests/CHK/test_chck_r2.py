@@ -19,5 +19,11 @@ class MyTestCase(unittest.TestCase):
         skus = "AAAAAAAAAA"
         self.assertEqual(checkout(skus), 400)
 
+    def test_valid_offer_placement(self):
+        skus = "A" * 15
+        self.assertEqual(checkout(skus), )
+
+
 if __name__ == '__main__':
     unittest.main()
+

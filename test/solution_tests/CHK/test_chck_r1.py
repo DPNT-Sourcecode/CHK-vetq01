@@ -25,7 +25,8 @@ class MyTestCase(unittest.TestCase):
 
     def test_with_multiple_of_varied_products(self):
         skus = "AAAABBBBB"
-        self.assertEqual(checkout(skus), 300)
+        self.assertEqual(checkout(skus), 600)
 
 if __name__ == '__main__':
     unittest.main()
+

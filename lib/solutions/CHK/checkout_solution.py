@@ -36,7 +36,6 @@ def get_multi_value_costs(sku, quantity, total_cost, skus):
         if type(offer) == str and offer in skus:
             offer = PRODUCT_COSTS[offer]
             total_cost -= multi_buy * offer
-            quantity -= multi_buy * quantity_threshold
         elif type(offer) == int:
             total_cost += multi_buy * offer
             quantity -= multi_buy * quantity_threshold
@@ -52,4 +51,5 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
