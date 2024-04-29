@@ -33,11 +33,12 @@ class MyTestCase(unittest.TestCase):
 
     def test_valid_offer_placement(self):
         skus = "ABCDEABCDE"
-        self.assertEqual(checkout(skus), 265)
+        self.assertEqual(checkout(skus), 280)
 
 
 if __name__ == '__main__':
     unittest.main()
+
 
 
 
