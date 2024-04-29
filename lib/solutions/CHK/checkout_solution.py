@@ -50,7 +50,7 @@ def get_multi_value_costs(sku, quantity, cost_for_each_product, skus):
     # If product remaining, using single buy costs
     if quantity > 0:
         cost += quantity * PRODUCT_COSTS[sku]
-        cost_for_each_product[sku] = min(cost, cost_for_each_product[sku])
+    cost_for_each_product[sku] = min(cost, cost_for_each_product[sku])
     return cost_for_each_product
 def create_frequency_dictionary(skus):
     frequency_dictionary = {}
@@ -60,4 +60,5 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
