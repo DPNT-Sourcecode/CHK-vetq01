@@ -14,7 +14,7 @@ PRODUCT_MULTI_VALUE_COSTS["B"] = [[2, 45]]
 PRODUCT_MULTI_VALUE_BOGF["E"] = [[2, "B"]]
 PRODUCT_MULTI_VALUE_BOGF["F"] = [[3, "F"]]
 PRODUCT_MULTI_VALUE_COSTS["H"] = [[10, 80], [5, 45]]
-PRODUCT_MULTI_VALUE_COSTS["K"] = [[2, 150]]
+PRODUCT_MULTI_VALUE_COSTS["K"] = [[2, 120]]
 PRODUCT_MULTI_VALUE_BOGF["N"] = [[3, "M"]]
 PRODUCT_MULTI_VALUE_COSTS["P"] = [[5, 200]]
 PRODUCT_MULTI_VALUE_COSTS["Q"] = [[3, 80]]
@@ -168,6 +168,7 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
 
 
