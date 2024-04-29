@@ -5,7 +5,6 @@ from collections import defaultdict
 # noinspection PyUnusedLocal
 # skus = unicode string
 # dictionary that has keys as the product names and the values as their prices
-PRODUCT_COSTS = {"A": 50, "B": 30, "C": 20, "D": 15, "E": 40, "F": 10}
 # dictionary that has product names as keys and  multi-price offers as the values, ordered by quantity
 PRODUCT_MULTI_VALUE_COSTS = defaultdict(list)
 PRODUCT_MULTI_VALUE_BOGF = defaultdict(list)
@@ -14,6 +13,14 @@ PRODUCT_MULTI_VALUE_COSTS["B"] = [[2, 45]]
 PRODUCT_MULTI_VALUE_BOGF["E"] = [[2, "B"]]
 PRODUCT_MULTI_VALUE_BOGF["F"] = [[3, "F"]]
 # START MODIFYING FROM HERE FOR:
+PRODUCT_MULTI_VALUE_BOGF["H"] = [[5, 45], [10, 80]]
+PRODUCT_MULTI_VALUE_BOGF["K"] = [[2, 150]] #
+PRODUCT_MULTI_VALUE_BOGF["N"] = [[3, "F"]] #
+PRODUCT_MULTI_VALUE_BOGF["P"] = [[3, "F"]] #
+PRODUCT_MULTI_VALUE_BOGF["Q"] = [[3, "F"]] #
+PRODUCT_MULTI_VALUE_BOGF["R"] = [[3, "F"]] #
+PRODUCT_MULTI_VALUE_BOGF["U"] = [[3, "F"]] #
+PRODUCT_MULTI_VALUE_BOGF["V"] = [[3, "F"]] #
 
 def initialize_costs_and_offers():
     data_file = open("../../../challenges/CHK_R4.txt", "r").readlines()
@@ -21,7 +28,6 @@ def initialize_costs_and_offers():
         split_line = line.split("|")
         if line[0] == "|" and not("Item" in split_line[1]):
             PRODUCT_COSTS[split_line[1].strip()] = int(split_line[2].strip())
-    return
 
 initialize_costs_and_offers()
 
@@ -100,6 +106,7 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
 
 
