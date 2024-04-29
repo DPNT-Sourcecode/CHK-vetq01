@@ -154,8 +154,9 @@ def get_greedy_combinations_of_deal(list_of_products):
     triplets = 0
     for i in range(0, len(list_of_products), 3):
         product_tuples = list_of_products[i: i+3]
-        for product_tuple in product_tuples:
-            total_cost += product_tuple[0]
+        if len(product_tuples) == 3:
+            for product_tuple in product_tuples:
+                total_cost += product_tuple[0]
         triplets += 1
     return total_cost,triplets
 
@@ -168,6 +169,7 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
 
 

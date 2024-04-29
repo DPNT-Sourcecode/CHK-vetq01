@@ -16,6 +16,10 @@ class MyTestCase(unittest.TestCase):
         skus = "SSSTTTXXX"
         self.assertEqual(checkout(skus), 135)
 
+    def test_deal_with_one_extra_product(self):
+        skus = "SSSZ"
+        self.assertEqual(checkout(skus), 65)
+
     def test_valid_deal_with_mix(self):
         skus = "STTSSXXTX"
         self.assertEqual(checkout(skus), 135)
@@ -24,5 +28,6 @@ class MyTestCase(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
 
 
