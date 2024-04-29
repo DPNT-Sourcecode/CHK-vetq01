@@ -15,6 +15,13 @@ PRODUCT_MULTI_VALUE_BOGF["E"] = [[2, "B"]]
 PRODUCT_MULTI_VALUE_BOGF["F"] = [[3, "F"]]
 # START MODIFYING FROM HERE FOR:
 
+def initialize_costs_and_offers():
+    data_file = open("../../../challenges/CHK_R4.txt", "r").readlines()
+    return
+
+initialize_costs_and_offers()
+
+
 def checkout(skus):
     # Create a frequency dictionary of skus given in parameter
     sku_frequency = create_frequency_dictionary(skus)
@@ -89,5 +96,6 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
 
