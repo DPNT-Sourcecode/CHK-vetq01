@@ -1,11 +1,11 @@
 import math
 from collections import defaultdict
 
-
 # noinspection PyUnusedLocal
 # skus = unicode string
 # dictionary that has keys as the product names and the values as their prices
 # dictionary that has product names as keys and  multi-price offers as the values, ordered by quantity
+
 PRODUCT_COSTS = {}
 PRODUCT_MULTI_VALUE_COSTS = defaultdict(list)
 PRODUCT_MULTI_VALUE_BOGF = defaultdict(list)
@@ -20,14 +20,46 @@ PRODUCT_MULTI_VALUE_BOGF["P"] = [[5, 200]]
 PRODUCT_MULTI_VALUE_BOGF["Q"] = [[3, 80]]
 PRODUCT_MULTI_VALUE_BOGF["R"] = [[3, "Q"]]
 PRODUCT_MULTI_VALUE_BOGF["U"] = [[4, "U"]]
-PRODUCT_MULTI_VALUE_BOGF["V"] = [[2, 90], [3,130]]
+PRODUCT_MULTI_VALUE_BOGF["V"] = [[2, 90], [3, 130]]
+
+data_table = """+------+-------+------------------------+
+| Item | Price | Special offers         |
++------+-------+------------------------+
+| A    | 50    | 3A for 130, 5A for 200 |
+| B    | 30    | 2B for 45              |
+| C    | 20    |                        |
+| D    | 15    |                        |
+| E    | 40    | 2E get one B free      |
+| F    | 10    | 2F get one F free      |
+| G    | 20    |                        |
+| H    | 10    | 5H for 45, 10H for 80  |
+| I    | 35    |                        |
+| J    | 60    |                        |
+| K    | 80    | 2K for 150             |
+| L    | 90    |                        |
+| M    | 15    |                        |
+| N    | 40    | 3N get one M free      |
+| O    | 10    |                        |
+| P    | 50    | 5P for 200             |
+| Q    | 30    | 3Q for 80              |
+| R    | 50    | 3R get one Q free      |
+| S    | 30    |                        |
+| T    | 20    |                        |
+| U    | 40    | 3U get one U free      |
+| V    | 50    | 2V for 90, 3V for 130  |
+| W    | 20    |                        |
+| X    | 90    |                        |
+| Y    | 10    |                        |
+| Z    | 50    |                        |
++------+-------+------------------------+"""
 
 def initialize_costs_and_offers():
-    data_file = open("/CHK_R4.txt", "r").readlines()
+    data_file = data_table.split("\n")
     for line in data_file:
         split_line = line.split("|")
-        if line[0] == "|" and not("Item" in split_line[1]):
+        if line[0] == "|" and not ("Item" in split_line[1]):
             PRODUCT_COSTS[split_line[1].strip()] = int(split_line[2].strip())
+
 
 initialize_costs_and_offers()
 
@@ -47,13 +79,16 @@ def checkout(skus):
     for sku in costs_for_each_product:
         quantity = skus_remaining[sku]
         if sku in PRODUCT_MULTI_VALUE_COSTS:
-            costs_for_each_product,skus_remaining = get_multi_value_discounts(sku, quantity, costs_for_each_product, sku_frequency, skus_remaining)
+            costs_for_each_product, skus_remaining = get_multi_value_discounts(sku, quantity, costs_for_each_product,
+                                                                               sku_frequency, skus_remaining)
     for sku in costs_for_each_product:
         quantity = skus_remaining[sku]
         if sku in PRODUCT_MULTI_VALUE_BOGF:
-            costs_for_each_product,skus_remaining = get_multi_value_BOGF(sku, quantity, costs_for_each_product, sku_frequency, skus_remaining)
+            costs_for_each_product, skus_remaining = get_multi_value_BOGF(sku, quantity, costs_for_each_product,
+                                                                          sku_frequency, skus_remaining)
     total_cost = sum(costs_for_each_product.values())
     return total_cost
+
 
 def get_multi_value_discounts(sku, quantity, cost_for_each_product, skus, skus_remaining):
     cost = 0
@@ -73,7 +108,7 @@ def get_multi_value_BOGF(sku, quantity, cost_for_each_product, skus, skus_remain
     # iterate through all offers for sku
     cost = 0
     for quantity_threshold, offer in PRODUCT_MULTI_VALUE_BOGF[sku]:
-        if not(offer) in skus:
+        if not (offer) in skus:
             break
         multi_buy = math.floor(quantity / quantity_threshold)
         price_offer = PRODUCT_COSTS[offer]
@@ -98,6 +133,8 @@ def get_multi_value_BOGF(sku, quantity, cost_for_each_product, skus, skus_remain
         cost += quantity * PRODUCT_COSTS[sku]
     cost_for_each_product[sku] = min(cost, cost_for_each_product[sku])
     return cost_for_each_product, skus_remaining
+
+
 def create_frequency_dictionary(skus):
     frequency_dictionary = {}
     for sku in skus:
