@@ -144,7 +144,7 @@ def get_multi_product_deal_cost(total_cost, sku_frequency):
     if len(list_of_products) < 3 or len(set(list_of_products)) < 3:
         return total_cost
     else:
-        list_of_products.sort()
+        list_of_products.sort(reverse=True)
         total_deal_cost,triplets = get_greedy_combinations_of_deal(list_of_products)
     total_cost = total_cost - total_deal_cost + (45 * triplets)
     return total_cost
@@ -156,7 +156,7 @@ def get_greedy_combinations_of_deal(list_of_products):
         product_tuples = list_of_products[i: i+3]
         for product_tuple in product_tuples:
             total_cost += product_tuple[0]
-            triplets += 1
+        triplets += 1
     return total_cost,triplets
 
 
@@ -168,4 +168,5 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
