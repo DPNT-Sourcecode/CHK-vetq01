@@ -12,7 +12,12 @@ class MyTestCase(unittest.TestCase):
         skus = "SSSTTTXXX"
         self.assertEqual(checkout(skus), 135)
 
+    def test_valid_deal_with_mix(self):
+        skus = "STTSSXXTX"
+        self.assertEqual(checkout(skus), 135)
+
 
 
 if __name__ == '__main__':
     unittest.main()
+

@@ -152,7 +152,7 @@ def get_multi_product_deal_cost(total_cost, sku_frequency):
 def get_greedy_combinations_of_deal(list_of_products):
     total_cost = 0
     triplets = 0
-    for i in range(0, len(list_of_products)-3):
+    for i in range(0, len(list_of_products), 3):
         product_tuples = list_of_products[i: i+3]
         for product_tuple in product_tuples:
             total_cost += product_tuple[0]
@@ -168,5 +168,6 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
 
