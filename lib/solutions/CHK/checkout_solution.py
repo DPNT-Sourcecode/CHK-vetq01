@@ -14,13 +14,15 @@ PRODUCT_MULTI_VALUE_COSTS["E"] = [[2, "B"]]
 def checkout(skus):
     # Create a frequency dictionary of skus given in parameter
     sku_frequency = create_frequency_dictionary(skus)
+    # record products to which an offer has been applied too
+    offer_applied = set()
     total_cost = 0
     for sku in sku_frequency:
         quantity = sku_frequency[sku]
         # If product on offer, check quantity and apply cost accordingly
         if sku in PRODUCT_MULTI_VALUE_COSTS:
             # get multi-product value of sku
-            total_cost = get_multi_value_costs(sku, quantity, total_cost, sku_frequency)
+            total_cost = get_multi_value_costs(sku, quantity, total_cost, sku_frequency, offer_applied)
         elif sku in PRODUCT_COSTS:
             total_cost += PRODUCT_COSTS[sku] * quantity
         # Return -1 in case the product does not exist
@@ -28,17 +30,19 @@ def checkout(skus):
             return -1
     return total_cost
 
-def get_multi_value_costs(sku, quantity, total_cost, skus):
+def get_multi_value_costs(sku, quantity, total_cost, skus, offer_applied):
     # iterate through all offers for sku
     for quantity_threshold, offer in PRODUCT_MULTI_VALUE_COSTS[sku]:
         multi_buy = math.floor(quantity / quantity_threshold)
         # If getting item for free, remove cost accordingly
-        if type(offer) == str and offer in skus:
-            offer = PRODUCT_COSTS[offer]
-            total_cost -= multi_buy * offer
-        elif type(offer) == int:
-            total_cost += multi_buy * offer
-            quantity -= multi_buy * quantity_threshold
+        if multi_buy > 0 and not(sku in offer_applied):
+            offer_applied.add(sku)
+            if type(offer) == str and offer in skus:
+                offer = PRODUCT_COSTS[offer]
+                total_cost -= multi_buy * offer
+            elif type(offer) == int:
+                total_cost += multi_buy * offer
+                quantity -= multi_buy * quantity_threshold
     # If product remaining, using single buy costs
     if quantity > 0:
         total_cost += quantity * PRODUCT_COSTS[sku]
@@ -51,5 +55,6 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
 
