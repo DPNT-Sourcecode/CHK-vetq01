@@ -6,6 +6,7 @@ from collections import defaultdict
 # skus = unicode string
 # dictionary that has keys as the product names and the values as their prices
 # dictionary that has product names as keys and  multi-price offers as the values, ordered by quantity
+PRODUCT_COSTS = {}
 PRODUCT_MULTI_VALUE_COSTS = defaultdict(list)
 PRODUCT_MULTI_VALUE_BOGF = defaultdict(list)
 PRODUCT_MULTI_VALUE_COSTS["A"] = [[5, 200], [3, 130]]
@@ -106,6 +107,7 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
 
 
