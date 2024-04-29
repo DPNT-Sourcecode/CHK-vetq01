@@ -17,6 +17,10 @@ PRODUCT_MULTI_VALUE_BOGF["F"] = [[3, "F"]]
 
 def initialize_costs_and_offers():
     data_file = open("../../../challenges/CHK_R4.txt", "r").readlines()
+    for line in data_file:
+        split_line = line.split("|")
+        if line[0] == "|" and not("Item" in split_line[1]):
+            PRODUCT_COSTS[split_line[1].strip()] = int(split_line[2].strip())
     return
 
 initialize_costs_and_offers()
@@ -96,6 +100,7 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
 
 
