@@ -14,37 +14,44 @@ PRODUCT_MULTI_VALUE_COSTS["E"] = [[2, "B"]]
 def checkout(skus):
     # Create a frequency dictionary of skus given in parameter
     sku_frequency = create_frequency_dictionary(skus)
-    skus_remaining = set(sku_frequency.keys())
+    costs_for_each_product = {}
     total_cost = 0
+    # Calculate the costs without any offers:
     for sku in sku_frequency:
         quantity = sku_frequency[sku]
-        # If product on offer, check quantity and apply cost accordingly
-        if sku in PRODUCT_MULTI_VALUE_COSTS:
-            # get multi-product value of sku
-            total_cost, skus_remaining = get_multi_value_costs(sku, quantity, total_cost, skus_remaining)
-        elif sku in PRODUCT_COSTS:
-            total_cost += PRODUCT_COSTS[sku] * quantity
-        # Return -1 in case the product does not exist
+        if sku in PRODUCT_COSTS:
+            costs_for_each_product[sku] = quantity * PRODUCT_COSTS[sku]
         else:
             return -1
+    # Find the best offers to apply to get the lowest cost
+    for sku in costs_for_each_product:
+        current_cost = costs_for_each_product[sku]
+        quantity = sku_frequency[sku]
+        if sku in PRODUCT_MULTI_VALUE_COSTS:
+            costs_for_each_product = get_multi_value_costs(sku, quantity, costs_for_each_product, sku_frequency)
+            # Find out the costs for each product, compare to the current cost
+            # If better than the current cost, replace, otherwise keep the same
+    total_cost = sum(costs_for_each_product.values())
     return total_cost
 
-def get_multi_value_costs(sku, quantity, total_cost, skus):
+def get_multi_value_costs(sku, quantity, cost_for_each_product, skus):
     # iterate through all offers for sku
+    cost = 0
     for quantity_threshold, offer in PRODUCT_MULTI_VALUE_COSTS[sku]:
         multi_buy = math.floor(quantity / quantity_threshold)
         # If getting item for free, remove cost accordingly
         if type(offer) == str and offer in skus:
             offer = PRODUCT_COSTS[offer]
-            total_cost -= multi_buy * offer
+            cost = (PRODUCT_COSTS[offer] * skus[offer]) - (multi_buy * offer)
+            cost_for_each_product[sku] = min(cost, cost_for_each_product[offer])
         elif type(offer) == int:
-            total_cost += multi_buy * offer
+            cost += multi_buy * offer
             quantity -= multi_buy * quantity_threshold
     # If product remaining, using single buy costs
     if quantity > 0:
-        total_cost += quantity * PRODUCT_COSTS[sku]
-    skus.remove(sku)
-    return total_cost,skus
+        cost += quantity * PRODUCT_COSTS[sku]
+        cost_for_each_product[sku] = min(cost, cost_for_each_product[sku])
+    return cost_for_each_product
 def create_frequency_dictionary(skus):
     frequency_dictionary = {}
     for sku in skus:
@@ -53,5 +60,6 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
 
