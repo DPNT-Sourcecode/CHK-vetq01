@@ -56,5 +56,3 @@ def create_frequency_dictionary(skus):
             frequency_dictionary[sku] = 1
     return frequency_dictionary
 
-
-
