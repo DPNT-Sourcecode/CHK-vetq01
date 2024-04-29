@@ -42,21 +42,16 @@ def get_multi_value_costs(sku, quantity, cost_for_each_product, skus, skus_remai
         # If getting item for free, remove cost accordingly
         if type(offer) == str and offer in skus:
             price_offer = PRODUCT_COSTS[offer]
-            multi_buy_offer = math.floor(skus_remaining[offer] / quantity_threshold)
             # Calculate costs of product without any previous offers
-            cost_without_offers = (price_offer * skus[offer]) - (multi_buy * price_offer)
+            cost_without_offers = price_offer * skus[offer]
+            cost_with_offers = cost_for_each_product[offer] - (price_offer * skus_remaining[offer]) if skus_remaining[offer] > 0 else price_offer * skus[offer]
             # Calculate costs of product with previous offers
             if skus_remaining[offer] > 0:
-                cost_with_offers = cost_for_each_product[offer] - (multi_buy_offer * price_offer)
-            else:
-                cost_with_offers = math.inf
+                for i in range(0,multi_buy):
+                    cost_with_offers -= price_offer
+                    cost_without_offers -= price_offer
             # Get the minimum of the above costs
-            if cost_with_offers < cost_without_offers:
-                skus_remaining[offer] -= multi_buy_offer * quantity_threshold
-                cost = cost_with_offers
-            else:
-                skus_remaining[offer] -= multi_buy * quantity_threshold
-                cost = cost_without_offers
+            cost = min(cost_without_offers, cost_with_offers)
             cost_for_each_product[offer] = min(cost, cost_for_each_product[offer])
         # Otherwise discount the price
         elif type(offer) == int:
@@ -76,4 +71,5 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
