@@ -1,3 +1,4 @@
+import math
 from collections import defaultdict
 
 
@@ -17,10 +18,13 @@ def checkout(skus):
         quantity = sku_frequency[sku]
         # If product on offer, check quantity and apply cost accordingly
         if sku in product_multi_value_costs:
-            if quantity == product_multi_value_costs[sku][0]:
-                total_cost += product_multi_value_costs[sku][1]
-            else:
-                total_cost += product_costs[sku] * quantity
+            multi_offer_threshold = product_multi_value_costs[sku][0]
+            multi_offer_price = product_multi_value_costs[sku][1]
+            # Check how many multi-buy offers we have
+            multi_buy = math.floor(quantity / multi_offer_threshold)
+            # Check product outwith the offer
+            single_buy = quantity % multi_offer_threshold
+            total_cost = total_cost + (multi_offer_price * multi_buy) + (single_buy * product_costs[sku])
         elif sku in product_costs:
             total_cost += product_costs[sku] * quantity
         # Return -1 in case the product does not exist
@@ -36,5 +40,6 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
 
