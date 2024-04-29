@@ -20,7 +20,7 @@ def checkout(skus):
         # If product on offer, check quantity and apply cost accordingly
         if sku in PRODUCT_MULTI_VALUE_COSTS:
             # get multi-product value of sku
-            total_cost += get_multi_value_costs(sku, quantity, total_cost, sku_frequency)
+            total_cost = get_multi_value_costs(sku, quantity, total_cost, sku_frequency)
         elif sku in PRODUCT_COSTS:
             total_cost += PRODUCT_COSTS[sku] * quantity
         # Return -1 in case the product does not exist
@@ -52,6 +52,7 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
 
 
