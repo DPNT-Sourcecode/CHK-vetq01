@@ -23,18 +23,27 @@ class MyTestCase(unittest.TestCase):
         skus = "A" * 15
         self.assertEqual(checkout(skus), 600)
 
-    def test_valid_offer_placement(self):
+    def test_multiple_product_offers(self):
         skus = "EEEEBB"
         self.assertEqual(checkout(skus), 160)
 
-    def test_valid_offer_placement(self):
+    def test_multiple_product_offers_2(self):
         skus = "BEBEEE"
         self.assertEqual(checkout(skus), 160)
 
-    def test_valid_offer_placement(self):
+    def test_best_offer_calcualation(self):
         skus = "ABCDEABCDE"
+        self.assertEqual(checkout(skus), 280)
+
+    def test_long_order_1(self):
+        skus = "AAAAAEEBAAABB"
+        self.assertEqual(checkout(skus), 280)
+
+    def test_long_order_2(self):
+        skus = "ABCDECBAABCABBAAAEEAA"
         self.assertEqual(checkout(skus), 280)
 
 
 if __name__ == '__main__':
     unittest.main()
+
