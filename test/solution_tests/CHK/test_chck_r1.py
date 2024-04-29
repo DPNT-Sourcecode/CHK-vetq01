@@ -16,7 +16,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(checkout(skus), 195)
 
     def test_with_invalid_product(self):
-        skus = "AAAABCZ"
+        skus = "AAAABC-"
         self.assertEqual(checkout(skus), -1)
 
     def test_with_multiple_of_one_product(self):

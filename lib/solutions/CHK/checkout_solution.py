@@ -13,18 +13,17 @@ PRODUCT_MULTI_VALUE_COSTS["A"] = [[5, 200], [3, 130]]
 PRODUCT_MULTI_VALUE_COSTS["B"] = [[2, 45]]
 PRODUCT_MULTI_VALUE_BOGF["E"] = [[2, "B"]]
 PRODUCT_MULTI_VALUE_BOGF["F"] = [[3, "F"]]
-# START MODIFYING FROM HERE FOR:
 PRODUCT_MULTI_VALUE_BOGF["H"] = [[5, 45], [10, 80]]
-PRODUCT_MULTI_VALUE_BOGF["K"] = [[2, 150]] #
-PRODUCT_MULTI_VALUE_BOGF["N"] = [[3, "F"]] #
-PRODUCT_MULTI_VALUE_BOGF["P"] = [[3, "F"]] #
-PRODUCT_MULTI_VALUE_BOGF["Q"] = [[3, "F"]] #
-PRODUCT_MULTI_VALUE_BOGF["R"] = [[3, "F"]] #
-PRODUCT_MULTI_VALUE_BOGF["U"] = [[3, "F"]] #
-PRODUCT_MULTI_VALUE_BOGF["V"] = [[3, "F"]] #
+PRODUCT_MULTI_VALUE_BOGF["K"] = [[2, 150]]
+PRODUCT_MULTI_VALUE_BOGF["N"] = [[3, "M"]]
+PRODUCT_MULTI_VALUE_BOGF["P"] = [[5, 200]]
+PRODUCT_MULTI_VALUE_BOGF["Q"] = [[3, 80]]
+PRODUCT_MULTI_VALUE_BOGF["R"] = [[3, "Q"]]
+PRODUCT_MULTI_VALUE_BOGF["U"] = [[4, "U"]]
+PRODUCT_MULTI_VALUE_BOGF["V"] = [[2, 90], [3,130]]
 
 def initialize_costs_and_offers():
-    data_file = open("../../../challenges/CHK_R4.txt", "r").readlines()
+    data_file = open("/CHK_R4.txt", "r").readlines()
     for line in data_file:
         split_line = line.split("|")
         if line[0] == "|" and not("Item" in split_line[1]):
@@ -107,9 +106,4 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
-
-
-
-
-
 

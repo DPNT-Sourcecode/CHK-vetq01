@@ -21,7 +21,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_reworded_offer_with_additional_item(self):
         skus = "FFFBBEE"
-        self.assertEqual(checkout(skus), 120)
+        self.assertEqual(checkout(skus), 130)
 
 
 if __name__ == '__main__':
