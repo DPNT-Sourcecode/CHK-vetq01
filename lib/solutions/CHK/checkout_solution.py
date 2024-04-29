@@ -54,6 +54,8 @@ def get_multi_value_BOGF(sku, quantity, cost_for_each_product, skus, skus_remain
     # iterate through all offers for sku
     cost = 0
     for quantity_threshold, offer in PRODUCT_MULTI_VALUE_BOGF[sku]:
+        if not(offer) in skus:
+            break
         multi_buy = math.floor(quantity / quantity_threshold)
         price_offer = PRODUCT_COSTS[offer]
         # Calculate costs of product without any previous offers
@@ -85,6 +87,7 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
 
 
