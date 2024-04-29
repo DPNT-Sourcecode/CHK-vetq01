@@ -20,9 +20,9 @@ def checkout(skus):
             if quantity == product_multi_value_costs[sku][0]:
                 total_cost += product_multi_value_costs[sku][1]
             else:
-                total_cost += product_costs[sku]
+                total_cost += product_costs[sku] * quantity
         elif sku in product_costs:
-            total_cost += product_costs[sku]
+            total_cost += product_costs[sku] * quantity
         # Return -1 in case the product does not exist
         else:
             return -1
@@ -36,4 +36,5 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 

@@ -15,5 +15,10 @@ class MyTestCase(unittest.TestCase):
         skus = "AAAABCZ"
         self.assertEqual(checkout(skus), -1)
 
+    def test_with_invalid_product(self):
+        skus = "AAAA"
+        self.assertEqual(checkout(skus), -1)
+
 if __name__ == '__main__':
     unittest.main()
+
