@@ -8,9 +8,10 @@ from collections import defaultdict
 PRODUCT_COSTS = {"A": 50, "B": 30, "C": 20, "D": 15, "E": 40}
 # dictionary that has product names as keys and  multi-price offers as the values, ordered by quantity
 PRODUCT_MULTI_VALUE_COSTS = defaultdict(list)
+PRODUCT_MULTI_VALUE_BOGF = defaultdict(list)
 PRODUCT_MULTI_VALUE_COSTS["A"] = [[5, 200], [3, 130]]
 PRODUCT_MULTI_VALUE_COSTS["B"] = [[2, 45]]
-PRODUCT_MULTI_VALUE_COSTS["E"] = [[2, "B"]]
+PRODUCT_MULTI_VALUE_BOGF["E"] = [[2, "B"]]
 def checkout(skus):
     # Create a frequency dictionary of skus given in parameter
     sku_frequency = create_frequency_dictionary(skus)
@@ -25,10 +26,13 @@ def checkout(skus):
             return -1
     # Find the best offers to apply to get the lowest cost
     for sku in costs_for_each_product:
-        current_cost = costs_for_each_product[sku]
         quantity = skus_remaining[sku]
         if sku in PRODUCT_MULTI_VALUE_COSTS:
             costs_for_each_product,skus_remaining = get_multi_value_discounts(sku, quantity, costs_for_each_product, sku_frequency, skus_remaining)
+    for sku in costs_for_each_product:
+        quantity = skus_remaining[sku]
+        if sku in PRODUCT_MULTI_VALUE_BOGF:
+            costs_for_each_product = get_multi_value_BOGF(sku, quantity, costs_for_each_product, sku_frequency, skus_remaining)
     total_cost = sum(costs_for_each_product.values())
     return total_cost
 
@@ -37,10 +41,9 @@ def get_multi_value_discounts(sku, quantity, cost_for_each_product, skus, skus_r
     for quantity_threshold, offer in PRODUCT_MULTI_VALUE_COSTS[sku]:
         multi_buy = math.floor(quantity / quantity_threshold)
         # If getting item for free, remove cost accordingly
-        if type(offer) == int:
-            cost += multi_buy * offer
-            quantity -= multi_buy * quantity_threshold
-            skus_remaining[sku] -= multi_buy * quantity_threshold
+        cost += multi_buy * offer
+        quantity -= multi_buy * quantity_threshold
+        skus_remaining[sku] -= multi_buy * quantity_threshold
     if quantity > 0:
         cost += quantity * PRODUCT_COSTS[sku]
     cost_for_each_product[sku] = min(cost, cost_for_each_product[sku])
@@ -50,7 +53,7 @@ def get_multi_value_discounts(sku, quantity, cost_for_each_product, skus, skus_r
 def get_multi_value_BOGF(sku, quantity, cost_for_each_product, skus, skus_remaining):
     # iterate through all offers for sku
     cost = 0
-    for quantity_threshold, offer in PRODUCT_MULTI_VALUE_COSTS[sku]:
+    for quantity_threshold, offer in PRODUCT_MULTI_VALUE_BOGF[sku]:
         multi_buy = math.floor(quantity / quantity_threshold)
         # If getting item for free, remove cost accordingly
         if type(offer) == str and offer in skus:
@@ -84,5 +87,6 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
 
