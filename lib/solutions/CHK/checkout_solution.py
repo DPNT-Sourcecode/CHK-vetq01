@@ -28,13 +28,26 @@ def checkout(skus):
         current_cost = costs_for_each_product[sku]
         quantity = skus_remaining[sku]
         if sku in PRODUCT_MULTI_VALUE_COSTS:
-            costs_for_each_product,skus_remaining = get_multi_value_costs(sku, quantity, costs_for_each_product, sku_frequency, skus_remaining)
-            # Find out the costs for each product, compare to the current cost
-            # If better than the current cost, replace, otherwise keep the same
+            costs_for_each_product,skus_remaining = get_multi_value_discounts(sku, quantity, costs_for_each_product, sku_frequency, skus_remaining)
     total_cost = sum(costs_for_each_product.values())
     return total_cost
 
-def get_multi_value_costs(sku, quantity, cost_for_each_product, skus, skus_remaining):
+def get_multi_value_discounts(sku, quantity, cost_for_each_product, skus, skus_remaining):
+    cost = 0
+    for quantity_threshold, offer in PRODUCT_MULTI_VALUE_COSTS[sku]:
+        multi_buy = math.floor(quantity / quantity_threshold)
+        # If getting item for free, remove cost accordingly
+        if type(offer) == int:
+            cost += multi_buy * offer
+            quantity -= multi_buy * quantity_threshold
+            skus_remaining[sku] -= multi_buy * quantity_threshold
+    if quantity > 0:
+        cost += quantity * PRODUCT_COSTS[sku]
+    cost_for_each_product[sku] = min(cost, cost_for_each_product[sku])
+    return cost_for_each_product, skus_remaining
+
+
+def get_multi_value_BOGF(sku, quantity, cost_for_each_product, skus, skus_remaining):
     # iterate through all offers for sku
     cost = 0
     for quantity_threshold, offer in PRODUCT_MULTI_VALUE_COSTS[sku]:
@@ -59,11 +72,6 @@ def get_multi_value_costs(sku, quantity, cost_for_each_product, skus, skus_remai
             cost = min(cost_without_offers, cost_with_offers)
             cost_for_each_product[offer] = min(cost, cost_for_each_product[offer])
         # Otherwise discount the price
-        elif type(offer) == int:
-            cost += multi_buy * offer
-            quantity -= multi_buy * quantity_threshold
-            skus_remaining[sku] -= multi_buy * quantity_threshold
-    # If product remaining, using single buy costs
     if quantity > 0:
         cost += quantity * PRODUCT_COSTS[sku]
     cost_for_each_product[sku] = min(cost, cost_for_each_product[sku])
@@ -76,4 +84,5 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
