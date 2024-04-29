@@ -5,13 +5,14 @@ from collections import defaultdict
 # noinspection PyUnusedLocal
 # skus = unicode string
 # dictionary that has keys as the product names and the values as their prices
-PRODUCT_COSTS = {"A": 50, "B": 30, "C": 20, "D": 15, "E": 40}
+PRODUCT_COSTS = {"A": 50, "B": 30, "C": 20, "D": 15, "E": 40, "F": 10}
 # dictionary that has product names as keys and  multi-price offers as the values, ordered by quantity
 PRODUCT_MULTI_VALUE_COSTS = defaultdict(list)
 PRODUCT_MULTI_VALUE_BOGF = defaultdict(list)
 PRODUCT_MULTI_VALUE_COSTS["A"] = [[5, 200], [3, 130]]
 PRODUCT_MULTI_VALUE_COSTS["B"] = [[2, 45]]
 PRODUCT_MULTI_VALUE_BOGF["E"] = [[2, "B"]]
+PRODUCT_MULTI_VALUE_BOGF["F"] = [[2, "F"]]
 def checkout(skus):
     # Create a frequency dictionary of skus given in parameter
     sku_frequency = create_frequency_dictionary(skus)
@@ -87,4 +88,5 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
