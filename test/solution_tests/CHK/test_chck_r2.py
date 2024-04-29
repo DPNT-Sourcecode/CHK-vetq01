@@ -7,8 +7,12 @@ class MyTestCase(unittest.TestCase):
         skus = "AAAAAAAA"
         self.assertEqual(checkout(skus), 330)
 
-    def test_product_with_product_offer(self):
+    def test_product_with_invalid_product_offer(self):
         skus = "AAAEE"
+        self.assertEqual(checkout(skus), 210)
+
+    def test_product_with_valid_product_offer(self):
+        skus = "AAAEEB"
         self.assertEqual(checkout(skus), 210)
 
     def test_product_with_multiple_instances(self):
@@ -17,5 +21,3 @@ class MyTestCase(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-
-

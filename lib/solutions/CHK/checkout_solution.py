@@ -34,10 +34,10 @@ def get_multi_value_costs(sku, quantity, total_cost, skus):
         multi_buy = math.floor(quantity / quantity_threshold)
         # If getting item for free, remove cost accordingly
         if type(offer) == str and offer in skus:
-            offer = PRODUCT_MULTI_VALUE_COSTS[offer]
+            offer = PRODUCT_COSTS[offer]
             total_cost -= multi_buy * offer
             quantity -= multi_buy * quantity_threshold
-        else:
+        elif type(offer) == int:
             total_cost += multi_buy * offer
             quantity -= multi_buy * quantity_threshold
     # If product remaining, using single buy costs
@@ -52,8 +52,4 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
-
-
-
-
 
