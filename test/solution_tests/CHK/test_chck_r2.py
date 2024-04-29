@@ -37,13 +37,14 @@ class MyTestCase(unittest.TestCase):
 
     def test_long_order_1(self):
         skus = "AAAAAEEBAAABB"
-        self.assertEqual(checkout(skus), 280)
+        self.assertEqual(checkout(skus), 455)
 
     def test_long_order_2(self):
         skus = "ABCDECBAABCABBAAAEEAA"
-        self.assertEqual(checkout(skus), 280)
+        self.assertEqual(checkout(skus), 665)
 
 
 if __name__ == '__main__':
     unittest.main()
+
 
