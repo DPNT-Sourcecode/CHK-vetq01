@@ -26,7 +26,7 @@ def checkout(skus):
     # Find the best offers to apply to get the lowest cost
     for sku in costs_for_each_product:
         current_cost = costs_for_each_product[sku]
-        quantity = sku_frequency[sku]
+        quantity = skus_remaining[sku]
         if sku in PRODUCT_MULTI_VALUE_COSTS:
             costs_for_each_product,skus_remaining = get_multi_value_costs(sku, quantity, costs_for_each_product, sku_frequency, skus_remaining)
             # Find out the costs for each product, compare to the current cost
@@ -51,7 +51,12 @@ def get_multi_value_costs(sku, quantity, cost_for_each_product, skus, skus_remai
             else:
                 cost_with_offers = math.inf
             # Get the minimum of the above costs
-            cost = min(cost_with_offers, cost_without_offers)
+            if cost_with_offers < cost_without_offers:
+                skus_remaining[offer] -= multi_buy_offer * quantity_threshold
+                cost = cost_with_offers
+            else:
+                skus_remaining[offer] -= multi_buy * quantity_threshold
+                cost = cost_without_offers
             cost_for_each_product[offer] = min(cost, cost_for_each_product[offer])
         # Otherwise discount the price
         elif type(offer) == int:
@@ -71,5 +76,6 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
 
