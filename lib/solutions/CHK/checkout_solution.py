@@ -13,14 +13,14 @@ PRODUCT_MULTI_VALUE_COSTS["A"] = [[5, 200], [3, 130]]
 PRODUCT_MULTI_VALUE_COSTS["B"] = [[2, 45]]
 PRODUCT_MULTI_VALUE_BOGF["E"] = [[2, "B"]]
 PRODUCT_MULTI_VALUE_BOGF["F"] = [[3, "F"]]
-PRODUCT_MULTI_VALUE_COSTS["H"] = [[5, 45], [10, 80]]
+PRODUCT_MULTI_VALUE_COSTS["H"] = [[10, 80], [5, 45]]
 PRODUCT_MULTI_VALUE_COSTS["K"] = [[2, 150]]
 PRODUCT_MULTI_VALUE_BOGF["N"] = [[3, "M"]]
 PRODUCT_MULTI_VALUE_COSTS["P"] = [[5, 200]]
 PRODUCT_MULTI_VALUE_COSTS["Q"] = [[3, 80]]
 PRODUCT_MULTI_VALUE_BOGF["R"] = [[3, "Q"]]
 PRODUCT_MULTI_VALUE_BOGF["U"] = [[4, "U"]]
-PRODUCT_MULTI_VALUE_COSTS["V"] = [[2, 90], [3, 130]]
+PRODUCT_MULTI_VALUE_COSTS["V"] = [[3, 130], [2, 90]]
 
 data_table = """+------+-------+------------------------+
 | Item | Price | Special offers         |
@@ -143,5 +143,6 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
 
