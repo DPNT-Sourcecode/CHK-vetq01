@@ -55,12 +55,18 @@ def get_multi_value_costs(sku, quantity, cost_for_each_product, skus, skus_remai
                     break
                 cost_with_offers -= price_offer
                 skus_left -= 1
+            if(cost_without_offers < cost_with_offers):
+                cost = cost_without_offers
+                skus_remaining[offer] -= multi_buy
+            else:
+                cost = cost_with_offers
+                skus_remaining[offer] -= skus_remaining
             # Calculate costs of product with previous offers
             cost = min(cost_without_offers, cost_with_offers)
             cost_for_each_product[offer] = min(cost, cost_for_each_product[offer])
         # Otherwise discount the price
         elif type(offer) == int:
-            cost += multi_buy * offer
+            cost_with_offer += multi_buy * offer
             quantity -= multi_buy * quantity_threshold
             skus_remaining[sku] -= multi_buy * quantity_threshold
     # If product remaining, using single buy costs
@@ -76,6 +82,7 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
+
 
 
 
