@@ -87,6 +87,7 @@ def checkout(skus):
             costs_for_each_product, skus_remaining = get_multi_value_BOGF(sku, quantity, costs_for_each_product,
                                                                           sku_frequency, skus_remaining)
     total_cost = sum(costs_for_each_product.values())
+    total_cost = get_multi_product_deal_cost(total_cost, sku_frequency)
     return total_cost
 
 
@@ -134,6 +135,30 @@ def get_multi_value_BOGF(sku, quantity, cost_for_each_product, skus, skus_remain
     cost_for_each_product[sku] = min(cost, cost_for_each_product[sku])
     return cost_for_each_product, skus_remaining
 
+def get_multi_product_deal_cost(total_cost, sku_frequency):
+    set_of_products = {"S", "T", "X", "Y", "Z"}
+    list_of_products = []
+    for key in sku_frequency:
+        if key in set_of_products:
+            list_of_products += [(PRODUCT_COSTS[key],key) for _ in range(0, sku_frequency[key])]
+    if len(list_of_products) < 3:
+        return total_cost
+    else:
+        list_of_products.sort()
+        total_deal_cost,triplets = get_greedy_combinations_of_deal(list_of_products)
+    total_cost = total_cost - total_deal_cost + (45 * triplets)
+    return total_cost
+
+def get_greedy_combinations_of_deal(list_of_products):
+    total_cost = 0
+    triplets = 0
+    for i in range(0, len(list_of_products)-3):
+        product_tuples = list_of_products[i: i+3]
+        for product_tuple in product_tuples:
+            total_cost += product_tuple[0]
+            triplets += 1
+    return total_cost,triplets
+
 
 def create_frequency_dictionary(skus):
     frequency_dictionary = {}
@@ -143,4 +168,3 @@ def create_frequency_dictionary(skus):
         else:
             frequency_dictionary[sku] = 1
     return frequency_dictionary
-
